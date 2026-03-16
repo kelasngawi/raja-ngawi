@@ -69,19 +69,21 @@ session_start();
 </body>
 </html>
 <?php
-if (isset($_POST['Username'])) {
-  $Username = $_POST['Username'];
-  $Password = $_POST['Password'];
+if (isset($_POST['login'])) {
+  $Username = $_POST['username'];
+  $Password = $_POST['password'];
 
   if(empty($Username) || empty($Password)){
     echo "data tidak boleh kosong";
   }else{
-    $userquery = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM admin WHERE Username='$Username' AND Password='$Password'"));
+    $userquery = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM users WHERE username='$Username' AND password='$Password'"));
+    
     if ($userquery) {
       $_SESSION['level'] = 'admin';
       $_SESSION['username'] = $Username;
+      header("location:index.php");
     } else {
-   echo '<div class="alert alert-danger alert-dismissible">
+      echo '<div class="alert alert-danger alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
         <h5><i class="icon fas fa-ban"></i> Alert!</h5>
         Login gagal
