@@ -1,3 +1,21 @@
+<?php
+include "koneksi.php";
+
+if (!isset($_SESSION['username']) || $_SESSION['role'] != 'guru') {
+  echo "<script>window.location='login.php?role=guru';</script>";
+  exit;
+}
+
+$user = $_SESSION['username'];
+$cek = mysqli_query($koneksi, "SELECT * FROM users WHERE username='$user'");
+$data = mysqli_fetch_assoc($cek);
+
+// 🔥 WAJIB GANTI PASSWORD
+if ($data['password'] == "1234") {
+  echo "<script>window.location='index.php?page=ganti_password';</script>";
+  exit;
+}
+?>
 <div class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">

@@ -1,7 +1,12 @@
 <?php
 session_start();
 require_once("koneksi.php");
-if (isset($_SESSION['username'])) {
+
+// 🔥 WAJIB: cek login
+if (!isset($_SESSION['username'])) {
+  header("location:login.php");
+  exit;
+}
 ?>
 <!DOCTYPE html>
 <!--
@@ -115,10 +120,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="index.php?page=ganti_password" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>ganti password</p>
+            </a>
+              <li class="nav-item">
                 <a href="index.php?page=mapel" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
+                    <p>mapel</p>
 
-                   <p>mata pelajaran</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -255,8 +265,4 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/adminlte.min.js"></script>
 </body>
 </html>
-<?php
-}else{
-  echo "<meta http-equiv='refresh' content='0; url=login.php'>";
-}
-?>
+

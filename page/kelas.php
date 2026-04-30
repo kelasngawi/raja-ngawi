@@ -33,7 +33,7 @@ if (isset($_GET['action'])) {
           <tr>
             <th>NO</th>
             <th>id kelas</th>
-            <th>Nama guru</th>
+            <th>Nama kelas</th>
             <th>Aksi</th>
           </tr>
         </tread>
@@ -47,7 +47,7 @@ if (isset($_GET['action'])) {
           <tr>
             <td><?= $no;?></td>
             <td><?= $result['id_kelas']; ?></td>
-            <td><?= $result['nm_guru']; ?></td>
+            <td><?= $result['nm_kelas']; ?></td>
             <td>
               <a href="index.php?page=kelas&action=hapus&id=<?= $result['id_kelas'] ?>"
                 title="">

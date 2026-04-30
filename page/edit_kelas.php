@@ -26,11 +26,11 @@ if (!$edit) {
 
 if(isset($_POST['update'])){
     $id_kelas = $_POST['id_kelas'] ?? '';
-    $nm_guru = $_POST['nm_guru'] ?? '';
+    $nm_kelas = $_POST['nm_kelas'] ?? '';
 
     $update = mysqli_query($koneksi,"
         UPDATE kelas 
-        SET id_kelas='$id_kelas', nm_guru='$nm_guru' 
+        SET id_kelas='$id_kelas', nm_kelas='$nm_kelas' 
         WHERE id_kelas='$id_lama'
     ");
 
@@ -56,8 +56,8 @@ if(isset($_POST['update'])){
           </div>
 
           <div class="form-group">
-            <label>Nama Guru</label>
-            <input type="text" name="nm_guru" value="<?= $edit['nm_guru']; ?>" class="form-control">
+            <label>Nama Kelas</label>
+            <input type="text" name="nm_kelas" value="<?= $edit['nm_kelas']; ?>" class="form-control">
           </div>
 
           <button type="submit" name="update" class="btn btn-primary">

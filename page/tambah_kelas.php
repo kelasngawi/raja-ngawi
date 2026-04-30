@@ -17,9 +17,9 @@ $hasilkode = $kode;
 
 if(isset($_POST['tambah'])){
     $id_kelas = $_POST['id_kelas'] ?? '';
-    $nm_guru = $_POST['nm_guru'] ?? '';
+    $nm_kelas = $_POST['nm_kelas'] ?? '';
 
-    $insert = mysqli_query($koneksi, "INSERT INTO kelas (id_kelas, nm_guru) VALUES ('$id_kelas','$nm_guru')");
+    $insert = mysqli_query($koneksi, "INSERT INTO kelas (id_kelas, nm_kelas) VALUES ('$id_kelas','$nm_kelas')");
 
     if ($insert){
         echo '<div class="alert alert-success alert-dismissible fade show">
@@ -46,8 +46,8 @@ if(isset($_POST['tambah'])){
           </div>
 
           <div class="form-group">
-            <label>Nama Guru</label>
-            <input type="text" name="nm_guru" placeholder="Nama Guru" class="form-control" required>
+            <label>Nama kelas</label>
+            <input type="text" name="nm_kelas" placeholder="Nama Kelas" class="form-control" required>
           </div>
 
           <button type="submit" name="tambah" class="btn btn-primary">

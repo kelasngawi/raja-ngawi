@@ -69,10 +69,24 @@ if(isset($_POST['tambah'])){
               <label for="hp">No HP</label>
               <input type="text" name="hp" value="<?= $edit['hp']; ?>" id="hp" placeholder="No HP" class="form-control">
             </div>
-            <div class="form-group">
+             <div class="form-group">
               <label for="id_kelas">Id Kelas</label>
-              <input type="text" name="id_kelas" value="<?= $edit['id_kelas']; ?>" id="id_kelas" placeholder="Id Kelas" class="form-control">
-            </div>
+               <div class="form-group">
+            <select class="form-control" name="id_kelas" required>
+              <option value="" disabled selected>-- Pilih Kelas --</option>
+                <?php
+              // ambil data dari tabel kelas
+              $getkelas = mysqli_query($koneksi, "SELECT * FROM kelas");
+
+              // looping data
+              while ($returnkelas = mysqli_fetch_array($getkelas)) {
+              ?>
+                <option value="<?= $returnkelas['id_kelas']; ?>">
+                  <?= $returnkelas['nm_kelas']; ?>
+                </option>
+              <?php } ?>
+            </select>
+              </div>
             <div class="card-footer">
               <input type="submit" class="btn btn-primary" name="tambah" value="simpan">
             </div>

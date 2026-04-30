@@ -9,28 +9,39 @@
 </div>
 
 <?php
+// 🔥 ambil angka terakhir dengan cara BENAR (bukan MAX string)
+$carikode = mysqli_query($koneksi,"
+SELECT MAX(CAST(SUBSTRING(nis,3) AS UNSIGNED)) as kode FROM siswa
+") or die(mysqli_error($koneksi));
+
+$datakode = mysqli_fetch_array($carikode);
+
+if($datakode['kode'] != null){
+    $kode = $datakode['kode'] + 1;
+}else{
+    $kode = 1;
+}
+
+$hasilkode = "M-" . str_pad($kode, 3, "0", STR_PAD_LEFT);
+$nis = $hasilkode;
+
+// 🔥 proses simpan
 if(isset($_POST['tambah'])){
-    $nis = $_POST['nis'];
+    $nis = $hasilkode;
     $id_user = $_POST['id_user'];
     $nm_siswa = $_POST['nm_siswa'];
     $jenkel = $_POST['jenkel'];
     $hp = $_POST['hp'];
     $id_kelas = $_POST['id_kelas'];
+{
 
-    // CEK NIS KOSONG
-    if($nis == ""){
-        echo "<div class='alert alert-danger'>NIS tidak boleh kosong</div>";
-    } else {
+{
 
-        // CEK DUPLIKAT NIS
-        $cek = mysqli_query($koneksi, "SELECT * FROM siswa WHERE nis='$nis'");
-        if(mysqli_num_rows($cek) > 0){
-            echo "<div class='alert alert-danger'>NIS sudah digunakan</div>";
-        } else {
 
-            $insert = mysqli_query($koneksi,"INSERT INTO siswa VALUES ('$nis','$id_user','$nm_siswa','$jenkel','$hp','$id_kelas')");
+    $insert = mysqli_query($koneksi, "INSERT INTO siswa (nis,id_user,nm_siswa,jenkel,hp,id_kelas) VALUES ('$nis','$id_user','$nm_siswa','$jenkel','$hp','$id_kelas')");
+    $insertUsers = mysqli_query($koneksi,"INSERT INTO users (username,password,role) VALUES ('$nis','1234','siswa')");
 
-            if ($insert){
+    if ($insert && $insertUsers){
                 echo '<div class="alert alert-info-dismissible">
                 <button type="button" class="close" data-dismiss="alert">x</button>
                 <h5><i class="icon fas fa-info"></i> Info </h5>
@@ -46,6 +57,7 @@ if(isset($_POST['tambah'])){
         }
     }
 }
+
 ?>
 
 <section class="content">
@@ -55,9 +67,10 @@ if(isset($_POST['tambah'])){
         <div class="card-body p-2">
           <form method="POST" action="">
 
+            
             <div class="form-group">
               <label for="nis">NIS</label>
-              <input type="text" name="nis" placeholder="Masukkan NIS" class="form-control">
+              <input type="text" name="nis" value="<?= isset($nis) ? $nis : '' ?>" class="form-control" readonly>
             </div>
 
             <div class="form-group">
@@ -81,12 +94,29 @@ if(isset($_POST['tambah'])){
 
             <div class="form-group">
               <label for="hp">No HP</label>
-              <input type="text" name="hp" id="hp" class="form-control">
+              <input type="number" name="hp" id="hp" class="form-control">
             </div>
 
             <div class="form-group">
               <label for="id_kelas">Id Kelas</label>
-              <input type="text" name="id_kelas" id="id_kelas" class="form-control">
+               <div class="form-group">
+            <select class="form-control" name="id_kelas" required>
+              <option value="" disabled selected>-- Pilih Kelas --</option>
+
+              <?php
+              // ambil data dari tabel kelas
+              $getkelas = mysqli_query($koneksi, "SELECT * FROM kelas");
+
+              // looping data
+              while ($returnkelas = mysqli_fetch_array($getkelas)) {
+              ?>
+                <option value="<?= $returnkelas['id_kelas']; ?>">
+                  <?= $returnkelas['nm_kelas']; ?>
+                </option>
+              <?php } ?>
+
+            </select>
+          </div>
             </div>
 
             <div class="card-footer">

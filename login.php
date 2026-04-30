@@ -1,94 +1,101 @@
 <?php
-include "koneksi.php";
 session_start();
+include "koneksi.php";
+
+if (isset($_POST['login'])) {
+
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  $query = mysqli_query($koneksi, "SELECT * FROM users WHERE username='$username'");
+  $data = mysqli_fetch_assoc($query);
+
+  if (!$data) {
+    echo "<div class='alert alert-danger text-center'>Username tidak ditemukan</div>";
+    exit;
+  }
+
+  if ($password != $data['password']) {
+    echo "<div class='alert alert-danger text-center'>Password salah</div>";
+    exit;
+  }
+
+  // 🔥 WAJIB GANTI PASSWORD (1234)
+  if ($data['password'] == "1234") {
+
+    $_SESSION['username'] = $data['username'];
+    $_SESSION['role'] = $data['role'];
+
+    header("location:index.php?page=ganti_password");
+    exit;
+  }
+
+  // LOGIN NORMAL
+  $_SESSION['username'] = $data['username'];
+  $_SESSION['role'] = $data['role'];
+
+  if ($data['role'] == "guru") {
+    header("location:index.php?page=guru");
+  } elseif ($data['role'] == "siswa") {
+    header("location:index.php?page=siswa");
+  } else {
+    header("location:index.php?page=dashboard");
+  }
+
+  exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
+  <title>Login</title>
+
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
+
 <body class="hold-transition login-page">
+
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Admin</b>LTE</a>
+    <b>Login</b>
   </div>
-  <!-- /.login-logo -->
+
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="#" method="post">
-        <div class="input-group mb-3">
-          <input type="text" name="username" id="username" class="form-control" placeholder="Username">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" name="password" id="password" class="form-control" placeholder="Password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
+      <?php if (isset($_GET['role']) && $_GET['role'] == 'guru') { ?>
+        <p class="login-box-msg"><b>Login Guru</b></p>
+      <?php } else { ?>
+        <p class="login-box-msg">Login siswa</p>
+      <?php } ?>
 
-         <!-- /.col -->
-          <div class="col-12">
-              <input type="submit" name="login" value="login" class="btn btn-primary btn-block">
-            </div>
-            <!-- /.col -->
-          </div>
+      <form method="post">
+
+        <div class="input-group mb-3">
+          <input type="text" name="username" class="form-control" placeholder="Username">
+        </div>
+
+        <div class="input-group mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password">
+        </div>
+
+        <button type="submit" name="login" class="btn btn-primary btn-block">
+          Login
+        </button>
+
       </form>
-      </div>
-    <!-- /.login-card-body -->
+
+    </div>
   </div>
 </div>
-<!-- /.login-box -->
 
-<!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
+
 </body>
 </html>
-<?php
-if (isset($_POST['login'])) {
-  $Username = $_POST['username'];
-  $Password = $_POST['password'];
-
-  if(empty($Username) || empty($Password)){
-    echo "data tidak boleh kosong";
-  }else{
-    $userquery = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM users WHERE username='$Username' AND password='$Password'"));
-    
-    if ($userquery) {
-      $_SESSION['level'] = 'admin';
-      $_SESSION['username'] = $Username;
-      header("location:index.php");
-    } else {
-      echo '<div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-        Login gagal
-      </div>';
-    }
-  }
-}
-?>
