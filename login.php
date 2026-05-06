@@ -20,7 +20,6 @@ if (isset($_POST['login'])) {
     exit;
   }
 
-  // 🔥 WAJIB GANTI PASSWORD (1234)
   if ($data['password'] == "1234") {
 
     $_SESSION['username'] = $data['username'];
