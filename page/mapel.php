@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">data mapel</h1>
+        <h1 class="m-0 text-dark">data mapell</h1>
       </div>
     </div>
   </div>
@@ -29,7 +29,7 @@ if (isset($_GET['action'])) {
       <a href="index.php?page=tambah_mapel" class="btn btn-primary btn-sm">
         Tambah Mapel</a>
       <table class="table table-striped">
-        <thead>
+        <tread>
           <tr>
             <th>NO</th>
             <th>Kd mapel</th>
@@ -37,7 +37,7 @@ if (isset($_GET['action'])) {
             <th>KKM</th>
             <th>Aksi</th>
           </tr>
-        </thead>
+        </tread>
         <?php
         $no = 0;
         $query = mysqli_query($koneksi,"SELECT * FROM mapel");
