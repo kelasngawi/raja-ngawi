@@ -158,6 +158,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <i class="far fa-circle nav-icon"></i>
                   <p>Skripsi</p>
                 </a>
+                 <li class="nav-item">
+                <a href="index.php?page=jadwalkelas" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Jadwal</p>
+                </a>
               </li>
             </ul>
           </li>
@@ -171,10 +176,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?page=jadwalkelas" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Jadwal</p>
                 </a>
               </li>
             </ul>
